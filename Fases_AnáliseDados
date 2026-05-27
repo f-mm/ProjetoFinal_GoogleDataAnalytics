@@ -1,0 +1,26 @@
+Fase 1 - Perguntar
+Como vimos anteriormente, as perguntas definidas pela equipe de analistas e a diretora Lily são:
+1.	Como os membros anuais e os ciclistas casuais usam as bicicletas da Cyclistic de forma diferente?
+2.	Por que os passageiros casuais iriam querer adquirir planos anuais da Cyclistic?
+3.	Como a Cyclistic pode usar a mídia digital para influenciar os passageiros casuais a se tornarem membros?
+
+Fase 2 - Preparar
+Foi disponibilizado pela empresa Cyclistic um repositório com conjunto de dados sobre os alugueis das bicicletas.
+Por se tratar de um banco de dados de vários anos, optei por utilizar dados dos 12 meses de 2025. Os arquivos são de extensão CSV.
+Criei uma pasta dedicada ao projeto, Cyclistic2025, aproveitei e fiz o backup dos dados originais.
+
+Fase 3 - Processar
+Conforme orientação do projeto, criei novas cópias em extensão XLS através do Microsoft Excel. Ao abrir a planilha, utilizei o comando "Text to Columns", 
+com separação por delimitação por vírgula.
+As planilhas originais possuem o cabeçalho: 
+ride_id,	rideable_type,	started_at_day,	ended_at_day,	start_station_name,	start_station_id,	end_station_name,	end_station_id,	start_lat,	start_lng,	end_lat,	end_lng,	member_casual.
+Juntei todos os dados em uma planilha geral com todos os meses juntos e continuei com a preparação.
+As colunas: started_at_day,	ended_at_day estavam formatadas como YY-MM-DD HH:MM:SS, para calcular o tempo do passeio foi necessário separar o dia e a hora em colunas separadas.
+Foram inseridas novas colunas: "started_hour" (D), "ended_hour" (F) e "ride_time" (G) para calcular o tempo, 
+com a fórmula "=IF((F2-D2)<0;((F2-D2)+24);F2-D2)"  para evitar que ocorra divergência nos horários após meia noite.
+Para identificar o dia da semana dos passeios, foi criada uma nova coluna "day_week" (H), utilizada a fórmula "=WEEKDAY(C2:2)".
+Feitos testes com fórmulas para tentar identificar algum padrão.
+
+Fase 4 - Analisar
+Ainda no Excel, calculado a média de duração dos passeios, duração máxima do passeio e os passeios por dias da semana, separando por membros e casuais.
+Inserido também Pivot table para realização dos análises, de média de passeios por tipo de membros e média de tempo de passeio pelos dias da semana e por tipo de membros.
