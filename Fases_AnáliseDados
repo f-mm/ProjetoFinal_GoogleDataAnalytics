@@ -24,3 +24,86 @@ Feitos testes com fórmulas para tentar identificar algum padrão.
 Fase 4 - Analisar
 Ainda no Excel, calculado a média de duração dos passeios, duração máxima do passeio e os passeios por dias da semana, separando por membros e casuais.
 Inserido também Pivot table para realização dos análises, de média de passeios por tipo de membros e média de tempo de passeio pelos dias da semana e por tipo de membros.
+Agora, utilizando o BigQuery, foi criado um dataset "cyclistic2025", fiz o upload dos arquivos CSV para criação das tabelas, com opção de auto-detecção de schema.
+Não foi possível fazer upload da planilha geral de dados por causa do tamanho, que passava muito dos 100mb disponíveis na versão gratuita do BigQuery.
+Portanto, só foi possível o upload das planilhas de janeiro até maio, de junho até novembro, as planilhas passam de 115mb, a de dezembro volta na casa dos 30mb.
+Essa diferença entre as planilhas mostra o aumento considerável de dados no período de junho até novembro. 
+Contando com ajuda de IA, utilizando as tabelas disponíveis no BigQuery, juntei todas em uma tabela chamada "viagens_unificadas", com o comando: 
+
+CREATE OR REPLACE TABLE cyclistic2025.viagens_unificadas AS
+SELECT * FROM cyclistic2025.jan_2025
+UNION ALL
+SELECT * FROM cyclistic2025.fev_2025
+UNION ALL
+SELECT * FROM cyclistic2025.mar_2025
+UNION ALL
+SELECT * FROM cyclistic2025.abr_2025
+UNION ALL
+SELECT * FROM cyclistic2025.mai_2025;
+
+Realizei a contagem de linhas, valores distintos, valores máximos, médias. 
+
+SELECT
+  COUNT(*) AS total_linhas,
+  COUNT(DISTINCT member_casual) AS tipos_usuario_distintos,
+  COUNT(DISTINCT rideable_type) AS tipos_bicicleta_distintos,
+  COUNT(DISTINCT start_station_name) AS estacoes_inicio_distintas,
+  COUNT(DISTINCT end_station_name) AS estacoes_fim_distintas,
+  MIN(started_at) AS menor_data_inicio,
+  MAX(started_at) AS maior_data_inicio,
+  AVG(TIMESTAMP_DIFF(ended_at, started_at, MINUTE)) AS duracao_media_minutos
+FROM `cyclistic2025.viagens_unificadas`;
+
+Foi verificado o total de linhas da tabela consolidada; foram identificados os valores distintos das variáveis principais; foram calculados mínimo, máximo e média para datas e duração;
+esses resumos serviram como validação inicial da base.
+
+Continuando, feito a contagem por mês e tipo de usuário.
+
+SELECT
+  FORMAT_DATE('%Y-%m', DATE(started_at)) AS mes,
+  member_casual,
+  COUNT(*) AS numero_viagens
+FROM `cyclistic2025.viagens_unificadas`
+GROUP BY mes, member_casual
+ORDER BY mes, member_casual;
+
+Feito a contagem total de bicicletas por tipo.
+
+SELECT
+  rideable_type,
+  COUNT(*) AS total_viagens
+FROM `cyclistic2025.viagens_unificadas`
+GROUP BY rideable_type
+ORDER BY total_viagens DESC;
+
+Calcular a quantidade de viagens por dia da semana separando entre member e casual.
+
+WITH base AS (
+  SELECT
+    CASE EXTRACT(DAYOFWEEK FROM DATE(started_at))
+      WHEN 1 THEN 'Domingo'
+      WHEN 2 THEN 'Segunda'
+      WHEN 3 THEN 'Terça'
+      WHEN 4 THEN 'Quarta'
+      WHEN 5 THEN 'Quinta'
+      WHEN 6 THEN 'Sexta'
+      WHEN 7 THEN 'Sábado'
+    END AS dia_semana,
+    EXTRACT(DAYOFWEEK FROM DATE(started_at)) AS ordem_dia,
+    member_casual
+  FROM `cyclistic2025.viagens_unificadas`
+)
+SELECT
+  dia_semana,
+  member_casual,
+  COUNT(*) AS total_viagens
+FROM base
+GROUP BY dia_semana, ordem_dia, member_casual
+ORDER BY ordem_dia, member_casual;
+
+Essa análise ajuda a ver se membros usam mais nos dias úteis; casuais usam mais no fim de semana; existe padrão de lazer versus deslocamento.
+
+
+
+
+
