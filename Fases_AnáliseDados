@@ -103,7 +103,33 @@ ORDER BY ordem_dia, member_casual;
 
 Essa análise ajuda a ver se membros usam mais nos dias úteis; casuais usam mais no fim de semana; existe padrão de lazer versus deslocamento.
 
+Trabalhando com Linguagem R - RGUi no Desktop
+Conforme indicado no projeto, é preciso fazer a análise na linguagem R, é diponibilizado um script para ser seguido.
+Feito download dos arquivos CSV - Q1, Q2, Q3 e Q4, no link: https://docs.google.com/document/d/1TTj5KNKf4BWvEORGm10oNbpwTRk1hamsWJGj6qRWpuI/edit?tab=t.0.
+Abrindo RGui, é preciso instalar os pacotes tidyverse, lubridate, ggplot2, chamar as bibliotecas correspondentes:
 
+install.packages("tidyverse")
+install.packages("lubridate")
+install.packages("ggplot2")
+
+library(tidyverse)
+library(lubridate)
+library(ggplot2)
+
+Verificado o diretório que está em funcionamento:
+
+getwd()
+
+Setado o diretório dos arquivos CSV correspondentes:
+
+setwd("C:/User/......")
+
+Subindo os datasets correspondentes:
+
+q2_2019 <- read_csv("C:/Users/..../Divvy_Trips_2019_Q2.csv")
+q3_2019 <- read_csv("C:/Users/..../Divvy_Trips_2019_Q3.csv")
+q4_2019 <- read_csv("C:/Users/..../Divvy_Trips_2019_Q4.csv")
+q1_2020 <- read_csv("C:/Users/..../Divvy_Trips_2020_Q1.csv")
 
 
 
