@@ -131,5 +131,32 @@ q3_2019 <- read_csv("C:/Users/..../Divvy_Trips_2019_Q3.csv")
 q4_2019 <- read_csv("C:/Users/..../Divvy_Trips_2019_Q4.csv")
 q1_2020 <- read_csv("C:/Users/..../Divvy_Trips_2020_Q1.csv")
 
+Verificando as colunas das tabelas:
+
+> colnames(q1_2020)
+ [1] "ride_id"            "rideable_type"      "started_at"         "ended_at"           "start_station_name" "start_station_id"  
+ [7] "end_station_name"   "end_station_id"     "start_lat"          "start_lng"          "end_lat"            "end_lng"           
+[13] "member_casual" 
+
+> colnames(q2_2019)
+ [1] "01 - Rental Details Rental ID"                    "01 - Rental Details Local Start Time"            
+ [3] "01 - Rental Details Local End Time"               "01 - Rental Details Bike ID"                     
+ [5] "01 - Rental Details Duration In Seconds Uncapped" "03 - Rental Start Station ID"                    
+ [7] "03 - Rental Start Station Name"                   "02 - Rental End Station ID"                      
+ [9] "02 - Rental End Station Name"                     "User Type"                                       
+[11] "Member Gender"                                    "05 - Member Details Member Birthday Year"   
+
+> colnames(q3_2019)
+ [1] "trip_id"           "start_time"        "end_time"          "bikeid"            "tripduration"      "from_station_id"  
+ [7] "from_station_name" "to_station_id"     "to_station_name"   "usertype"          "gender"            "birthyear"        
+
+> colnames(q4_2019)
+ [1] "trip_id"           "start_time"        "end_time"          "bikeid"            "tripduration"      "from_station_id"  
+ [7] "from_station_name" "to_station_id"     "to_station_name"   "usertype"          "gender"            "birthyear"        
+
+Agora, é preciso igualar os nomes das colunas com os respectivos dados.
+
+
+
 
 
